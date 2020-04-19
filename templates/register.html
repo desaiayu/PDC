@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<!-- css -->
+
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='snew.css') }}" >
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" >
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+    <!-- favicon-->
+<!-- <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png"> -->
+ 
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	<style>
+	
+.login, .register {
+  	width: 400px;
+  	background-color: #ffffff;
+  	box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+  	margin: 100px auto;
+}
+.login h1, .register h1 {
+  	text-align: center;
+  	color: #5b6574;
+  	font-size: 24px;
+  	padding: 20px 0 20px 0;
+  	
+}
+.login .links, .register .links {
+  	display: flex;
+  	padding: 0 15px;
+}
+.login .links a, .register .links a {
+  	color: #adb2ba;
+  	text-decoration: none;
+  	display: inline-flex;
+  	padding: 0 10px 10px 10px;
+  	font-weight: bold;
+}
+.login .links a:hover, .register .links a:hover {
+  	color:#d63232;
+}
+.login .links a.active, .register .links a.active {
+  	border-bottom: 3px solid #d63232;
+  	color: #d63232;
+}
+.login form, .register form {
+  	display: flex;
+  	flex-wrap: wrap;
+  	justify-content: center;
+  	padding-top: 20px;
+}
+.login form label, .register form label {
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	width: 50px;
+  	height: 50px;
+  	background-color: #d63232;
+  	color: #ffffff;
+}
+.login form input[type="password"], .login form input[type="text"], .login form input[type="email"], .register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
+  	width: 310px;
+  	height: 50px;
+  	border: 1px solid #dee0e4;
+  	margin-bottom: 20px;
+  	padding: 0 15px;
+}
+.login form input[type="submit"], .register form input[type="submit"] {
+  	width: 100%;
+  	padding: 15px;
+  	margin-top: 20px;
+  	background-color: #d63232;
+  	border: 0;
+  	cursor: pointer;
+  	font-weight: bold;
+  	color: #ffffff;
+  	transition: background-color 0.2s;
+}
+.login form input[type="submit"]:hover, .register form input[type="submit"]:hover {
+  	background-color:#d63232;
+  	transition: background-color 0.2s;
+}
+.navtop {
+  	background-color: #2f3947;
+  	height: 60px;
+  	width: 100%;
+  	border: 0;
+}
+.navtop div {
+  	display: flex;
+  	margin: 0 auto;
+  	width: 1000px;
+  	height: 100%;
+}
+.navtop div h1, .navtop div a {
+  	display: inline-flex;
+  	align-items: center;
+}
+.navtop div h1 {
+  	flex: 1;
+  	font-size: 24px;
+  	padding: 0;
+ 	margin: 0;
+  	color: #eaebed;
+  	font-weight: normal;
+}
+	</style>
+	</head>
+	<body>
+	<div id="wrapper" class="home-page">
+
+<header>
+<div class="topbar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1 col-sm-2 col-xs-3">
+         <a class="navbar-brand pull-left" href="index.php"><img src="{{url_for('static',filename='SPIT_logo.png',height=80)}}"/></a>
+     </div>
+     <div class="col-md-7 col-sm-7 col-xs-9">
+     <a class="navbar-brand pull-left" href="index.php"><img src="{{url_for('static',filename='logo.gif',height=80)}}"  /></a>
+     </div>
+    </div>
+  </div>
+</div>
+
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                  
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li><a href="./">Home</a></li> 
+                        <li class="dropdown">
+                          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Login<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                            <li><a href="admin/">Admin </a></li>
+                         </ul>
+                        </li> 
+                    </ul>
+                </div>
+            </div>
+        </div>
+  </header></div>
+		<div class="register">
+			<h1>Register</h1>
+			<div class="links">
+				<a href="{{ url_for('login') }}">Login</a>
+				<a href="{{ url_for('register') }}" class="active">Register</a>
+			</div>
+			<form action="{{ url_for('register') }}" method="post" autocomplete="off">
+				<label for="username">
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="username" placeholder="uid" id="username" required>
+				<label for="password">
+					<i class="fas fa-lock"></i>
+				</label>
+				<input type="password" name="password" placeholder="Password" id="password" required>
+				<label for="email">
+					<i class="fas fa-envelope"></i>
+				</label>
+				<input type="email" name="email" placeholder="Email" id="email" required>
+				<div class="msg">{{ msg }}</div>
+				<input type="submit" value="Register">
+			</form>
+		</div>
+	</body>
+</html>

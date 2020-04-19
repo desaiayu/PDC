@@ -1,0 +1,310 @@
+{% extends 'layout.html' %}
+{% set active_page = "co" %}
+{% block title %}Co-Curricular{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Data</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<style type="text/css">
+    body {
+        color: #404E67;
+        background: #F5F7FA;
+		font-family: 'Open Sans', sans-serif;
+	}
+	.container {
+    width: 1120px;
+}
+	.table-wrapper {
+		width: 1000px;
+	
+        background: #fff;
+        padding: 10px;	
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    .table-title {
+        padding-bottom: 10px;
+        margin: 0 0 10px;
+    }
+    .table-title h2 {
+        margin: 6px 0 0;
+        font-size: 22px;
+    }
+    .table-title .add-new {
+        float: right;
+		height: 30px;
+		font-weight: bold;
+		font-size: 12px;
+		text-shadow: none;
+		min-width: 100px;
+		border-radius: 50px;
+		line-height: 13px;
+    }
+	.table-title .add-new i {
+		margin-right: 4px;
+	}
+    table.table {
+        table-layout: fixed;
+    }
+    table.table tr th, table.table tr td {
+        border-color: #e9e9e9;
+        word-wrap: break-word;
+
+    }
+    table.table th i {
+        font-size: 13px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    table.table th:last-child {
+        width: 100px;
+    }
+    table.table td a {
+		cursor: pointer;
+        display: inline-block;
+        margin: 0 5px;
+		min-width: 24px;
+    }    
+	table.table td a.add {
+        color: #27C46B;
+    }
+    table.table td a.edit {
+        color: #FFC107;
+    }
+    table.table td a.delete {
+        color: #E34724;
+    }
+    table.table td i {
+        font-size: 19px;
+    }
+	table.table td a.add i {
+        font-size: 24px;
+    	margin-right: -1px;
+        position: relative;
+        top: 3px;
+    }    
+    table.table .form-control {
+        height: 32px;
+        line-height: 32px;
+        box-shadow: none;
+        border-radius: 2px;
+    }
+	table.table .form-control.error {
+		border-color: #f50000;
+	}
+	table.table td .add {
+		display: none;
+	}
+	button {
+  background-color:#d63232;
+  color: #ffffff;
+  border: none;
+  padding: 8px 40px;
+  font-size: 19px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>
+
+</head>
+<body>
+    
+    <form action="{{ url_for('co') }}" method="post" enctype="multipart/form-data" id="data">
+    <br>
+    <br>
+    <div class="container">
+        
+        <div class="table-wrapper">
+               
+            <div class="table-title">
+                
+                    <h1>Co- Curricular Activities </h1>
+                    <!-- {{msg}} -->
+               
+            </div>
+			<br>
+			<br>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">Name of the Activity</th>
+                        <th class="col-md-1">Date of the Activity</th>
+                        <th class="col-md-2">Type of the Activity</th>
+                        <th class="col-md-1">Awards</th>
+                        <th class="col-md-2">Location</th>
+                        <th class="col-md-2">Cash Prize</th>
+                        <th class="col-md-2">Certificate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-md-2"><input type="text" class="form-control" id="a"></td>
+                        <td class="col-md-2"><input type="text" class="form-control" id="b"></td>
+                        <td class="col-md-2"><input type="text" class="form-control" id="c"></td>
+                        <td class="col-md-1"><input type="text" class="form-control" id="d"></td>
+                        <td class="col-md-1"><input type="text" class="form-control" id="e"></td>
+                        <td class="col-md-1"><input type="text" class="form-control" id="f"></td>
+                        <td class="col-md-2"><input type="file" class="form-control" id="g" name = "file"></td>
+                    </tr>      
+                </tbody>                
+            </table>
+			<div style="text-align : center;">
+            <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px"type="button" id="add" class="btn btn-info"><center>ADD</center></button>
+             
+			 <br>
+					<br>
+			
+			<table class="table table-bordered">
+                <thead>
+                    <th class="col-md-2">Name of the Activity</th>
+                        <th class="col-md-1">Date of the Activity</th>
+                        <th class="col-md-2">Type of the Activity</th>
+                        <th class="col-md-1">Awards</th>
+                        <th class="col-md-2">Location</th>
+                        <th class="col-md-2">Cash Prize</th>
+                        <th class="col-md-2">Certificate</th>
+                    <th class="col-md-2">Actions</th>
+                </thead> 
+                <tbody id="list-table">
+                    <!-- entries come in here after success -->
+                    {% if msg != session['username'] %}
+                        {% for item in msg %}
+                            <tr>
+                                <td>{{item['name']}}</td>
+                                <td>{{item['date']}}</td>
+                                <td>{{item['type']}}</td>
+                                <td>{{item['award']}}</td>
+                                <td>{{item['location']}}</td>
+                                <td>{{item['cash_prize']}}</td>
+                                <td>{{item['certificate']}}</td>
+                                <td class="col-md-2">
+                                    <a class="delete" data-input = "{{h}}" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>  
+            <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px" type="button" id="previous" class="btn btn-info">
+                <a href="{{ url_for('patent') }}" style="text-decoration: none; color: inherit">Previous</a>
+            </button>
+            <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px" type="button" id="next" class="btn btn-info">
+                    <a href="{{ url_for('extra') }}" style="text-decoration: none; color: inherit">Next</a>
+            </button>     
+        </div>
+        
+    </div>
+    </form>     
+    <script>
+        $("#add").click(function(e) {
+                    console.log('hi');
+                    e.preventDefault();
+
+            var formData = new FormData(document.getElementById("data"));
+            formData.append('Name_of_activity',$("#a").val());
+            formData.append('Location',$("#e").val());
+            formData.append('Type_of_activity',$("#c").val());
+            formData.append('Date_of_activity',$("#b").val());
+            formData.append('Cash_Prize',$("#f").val());
+            formData.append('Awards',$("#d").val());
+
+            $.ajax({
+                url:  "/api/co",
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    $('#list-table').append(data);
+                    $('#a').val('');
+                    $('#b').val('');
+                    $('#c').val('');
+                    $('#d').val('');
+                    $('#e').val('');
+                    $('#f').val('');
+                 },
+                 error:function(data){
+                    console.log(data)                            
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+                });
+            });
+
+        /*$('#add').click(function(){
+            //console.log('hi');
+            //var Name_of_activity = $('#a').val();
+            //var Location= $('#b').val();         
+            //var Type_of_activity = $('#c').val();
+            //var Date_of_activity = $('#d').val();
+            //var Awards = $('#e').val();
+            //var Certificate = $('#f').val();
+            $.ajax({
+                url : "/api/co",
+                method : "POST",
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                data: new FormData($('form')[0]) ,
+                //data : {
+                    //'Name_of_activity' : Name_of_activity,
+                    //'Location' : Location,
+                    //'Type_of_activity' : Type_of_activity,
+                    //'Date_of_activity' : Date_of_activity,
+                    //'Awards' : Awards,
+                    //'Certificate': Certificate
+                //},
+                error:function(data){
+                    console.log(data)                            
+                },
+                success:function(data){
+                    $('#list-table').append(data);
+                    $('#a').val('');
+                    $('#b').val('');
+                    $('#c').val('');
+                    $('#d').val('');
+                    $('#e').val('');
+
+                }
+            })
+        })*/
+        $('#list-table').on( 'click', '.delete', function(){
+                    var id = $(this).data('input');
+                    var parent = $(this).closest('tr');
+                    var x =confirm("Are you sure you want to delete?");
+                    if(x){
+                        $.ajax({
+                        url : "/api/co/delete",
+                        method : "POST",
+                        data : {
+                            'id' : id
+                        },
+                        error:function(data){
+                            console.log(data)                            
+                        },
+                        success:function(data){
+                            console.log(data);
+                            parent.remove();
+                        } 
+                    })
+                    }                   
+                })             
+            
+    
+    </script>
+</body>
+
+</html>                            
+{% endblock %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<!-- css -->
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" >
+<link rel="stylesheet" href="{{ url_for('static', filename='snew.css') }}" >
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}" >
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+    <!-- favicon-->
+<!-- <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png"> -->
+ 
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	<style>
+	.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #555;
+    background-color:#a1000a;
+}
+	</style>
+	</head>
+	<body>
+	<div id="wrapper" class="home-page">
+
+<header>
+<div class="topbar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1 col-sm-2 col-xs-3">
+         <a class="navbar-brand pull-left" href="index.php"><img src="{{url_for('static',filename='SPIT_logo.png',height=80)}}"/></a>
+     </div>
+     <div class="col-md-7 col-sm-7 col-xs-9">
+     <a class="navbar-brand pull-left" href="index.php"><img src="{{url_for('static',filename='logo.gif',height=80)}}"  /></a>
+     </div>
+    </div>
+  </div>
+</div>
+
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+
+                    </button>
+                  
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                        <li class="{{ 'active' if active_page == 'home' else ''}}"><a href="{{ url_for('home') }}" style="color:#fff"><i class="fas fa-home" ></i>Home</a></li> 
+                        <li class="{{ 'active' if active_page == 'profile' else '' }}"><a href="{{ url_for('profile') }}" style="color:#fff"><i class="fas fa-user-circle"></i> Academics</a></li> 
+						<li class="{{ 'active' if active_page == 'finyear' else '' }}"><a href="{{ url_for('finyear') }}" style="color:#fff"><i class="fas fa-user-circle" style="color:#fff"></i> Final Year</a></li> 
+						<li class="{{ 'active' if active_page == 'mini' else '' }}"><a href="{{ url_for('mini') }}" style="color:#fff"><i class="fas fa-user-circle" style="color:#fff"></i> Mini</a></li> 
+						<li class="{{ 'active' if active_page == 'rpaper' else '' }}"><a href="{{ url_for('rpaper') }}" style="color:#fff"><i class="fas fa-user-circle" style="color:#fff"></i> Research</a></li> 
+                        <li class="{{ 'active' if active_page == 'patent' else '' }}"><a href="{{ url_for('patent') }}" style ="color: #fff"> <i class="fas fa-user-circle" style="color:#fff"></i> Patent</a></li> 
+					    <li class="{{ 'active' if active_page == 'co' else '' }}"><a href="{{ url_for('co') }}" style="color:#fff"><i class="fas fa-home" style="color:#fff"></i> Co-curricular</a></li>
+						<li class="{{ 'active' if active_page == 'extra' else '' }}"><a href="{{ url_for('extra') }}" style="color:#fff"><i class="fas fa-home" style="color:#fff"></i> Extra</a></li>
+						<li class="{{ 'active' if active_page == 'social' else '' }}"><a href="{{ url_for('social') }}" style="color:#fff"><i class="fas fa-home" style="color:#fff"></i> Social</a></li>
+						<li><a href="{{ url_for('login') }}" style="color:#fff"><i class="fas fa-sign-out-alt"></i>  Logout</a></i></li> 
+                    </ul>
+                </div>
+            </div>
+        </div>
+  </header></div>
+  <div class="content">
+			{% block content %}{% endblock %}
+		</div>
+		</body>
+		</html>

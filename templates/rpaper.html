@@ -1,0 +1,262 @@
+{% extends 'layout.html' %}
+{% set active_page = "rpaper" %}
+{% block title %}Research{% endblock %}
+{% block content %}
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width; initial-scale = 1;">
+<title>Research</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<style type="text/css">
+    body {
+        color: #404E67;
+        background: #F5F7FA;
+		font-family: 'Open Sans', sans-serif;
+	}
+	.container {
+    width: 1120px;
+}
+	.table-wrapper {
+		width: 1106px;
+	
+        background: #fff;
+        padding: 10px;	
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+    .table-title {
+        padding-bottom: 10px;
+        margin: 0 0 10px;
+    }
+    .table-title h2 {
+        margin: 6px 0 0;
+        font-size: 22px;
+    }
+    .table-title .add-new {
+        float: right;
+		height: 30px;
+		font-weight: bold;
+		font-size: 12px;
+		text-shadow: none;
+		min-width: 100px;
+		border-radius: 50px;
+		line-height: 13px;
+    }
+	.table-title .add-new i {
+		margin-right: 4px;
+	}
+    table.table {
+        table-layout: fixed;
+    }
+    table.table tr th, table.table tr td {
+        border-color: #e9e9e9;
+    }
+    table.table th i {
+        font-size: 13px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    table.table th:last-child {
+        width: 100px;
+    }
+    table.table td a {
+		cursor: pointer;
+        display: inline-block;
+        margin: 0 5px;
+		min-width: 24px;
+    }    
+	table.table td a.add {
+        color: #27C46B;
+    }
+    table.table td a.edit {
+        color: #FFC107;
+    }
+    table.table td a.delete {
+        color: #E34724;
+    }
+    table.table td i {
+        font-size: 19px;
+    }
+	table.table td a.add i {
+        font-size: 24px;
+    	margin-right: -1px;
+        position: relative;
+        top: 3px;
+    }    
+    table.table .form-control {
+        height: 38px;
+        line-height: 32px;
+        box-shadow: none;
+        border-radius: 2px;
+    }
+	table.table .form-control.error {
+		border-color: #f50000;
+	}
+	table.table td .add {
+		display: none;
+	}
+	button {
+  background-color:#d63232;
+  color: #ffffff;
+  border: none;
+  padding: 8px 40px;
+  font-size: 19px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>
+
+</head>
+
+<body>
+
+    
+    <form action="{{ url_for('rpaper') }}" method="post" enctype="multipart/form-data" id="data">
+        <br>
+        <br>
+            <div class="container">
+                <div class="table-wrapper" align="center">
+                    <div class="table-title">
+                       <h1>Research Paper</h1>
+                    </div>
+					<br>
+					<br>
+                    <table class="table table-bordered">
+                        <thead>
+                            <th class="col-md-2">Project Title</th>
+                            <th class="col-md-1">Name of the mentor</th>
+                            <th class="col-md-1">Domain</th>
+                            <th class="col-md-2">Outcome</th>
+                            <th class="col-md-2">Abstract</th>
+                            <th class="col-md-2">Name of Publisher</th>
+                            <th class="col-md-2">Acceptance Letter</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-md-2"><input type="text" class="form-control" id="a"></td>
+                                <td class="col-md-2"><input type="text" class="form-control" id="b"></td>
+                                <td class="col-md-2"><input type="text" class="form-control" id="c"></td>
+                                <td class="col-md-2"><input type="text" class="form-control" id="d"></td>
+                                <td class="col-md-2"><input type="text" class="form-control" id="e"></td>
+                                <td class="col-md-2"><input type="text" class="form-control" id="f"></td>
+                                <td class="col-md-2"><input type="file" class="form-control" id="g" name="file"></td>
+                            </tr>      
+                        </tbody>
+                    </table>
+                    <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px"type="button" id="add" class="btn btn-info">ADD</button>
+                    
+					<br>
+					<br>
+					<table class="table table-bordered">
+                        <thead>
+                            <th class="col-md-2">Project Title</th>
+                            <th class="col-md-2">Name of the mentor</th>
+                            <th class="col-md-2">Domain</th>
+                            <th class="col-md-2">Outcome</th>
+                            <th class="col-md-2">Abstract</th>
+                            <th class="col-md-2">Name of Publisher</th>
+                            <th class="col-md-2">Acceptance Letter</th>
+                            <th class="col-md-2">Actions</th>
+                        </thead>
+                        <tbody id="list-table">
+                            <!-- entries come in here after success -->
+                            {% for item in msg %}
+                                <tr>
+                                    <td>{{item['title']}}</td>
+                                    <td>{{item['mentor']}}</td>
+                                    <td>{{item['domain']}}</td>
+                                    <td>{{item['outcome']}}</td>
+                                    <td>{{item['abstract']}}</td>
+                                    <td>{{item['publisher']}}</td>
+                                    <td>{{item['acceptance_letter']}}</td>
+                                    <td class="col-md-2">
+                                        <a class="edit" data-input = "{{h}}" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                        <a class="delete" data-input="{{h}}" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px"type="button" id="previous" class="btn btn-info">
+                        <a href="{{ url_for('mini') }}" style="text-decoration: none; color: inherit">Previous</a>
+                    </button>
+                    <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px"type="button" id="next" class="btn btn-info">
+                            <a href="{{ url_for('patent') }}" style="text-decoration: none; color: inherit">Next</a>
+                    </button>                                                       
+                </div>
+            </div> 
+            </form>
+            <script>
+
+$("#add").click(function(e) {
+                    console.log('hi');
+                    e.preventDefault();
+
+            var formData = new FormData(document.getElementById("data"));
+            formData.append('Project_Title',$("#a").val());
+            formData.append('Abstract',$("#e").val());
+            formData.append('Domain',$("#c").val());
+            formData.append('Name_of_the_mentor',$("#b").val());
+            formData.append('Name_of_Publisher',$("#f").val());
+            formData.append('Outcome',$("#d").val());
+
+            $.ajax({
+                url:  "/api/rpaper",
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    $('#list-table').append(data);
+                    $('#a').val('');
+                    $('#b').val('');
+                    $('#c').val('');
+                    $('#d').val('');
+                    $('#e').val('');
+                    $('#f').val('');
+                 },
+                 error:function(data){
+                    console.log(data)                            
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+                });
+            });
+
+                $('#list-table').on( 'click', '.delete', function(){
+                    var id = $(this).data('input');
+                    var parent = $(this).closest('tr');
+                    var x =confirm("Are you sure you want to delete?");
+                    if(x){
+                        $.ajax({
+                        url : "/api/rpaper/delete",
+                        method : "POST",
+                        data : {
+                            'id' : id
+                        },
+                        error:function(data){
+                            console.log(data)                            
+                        },
+                        success:function(data){
+                            console.log(data);
+                            parent.remove();
+                        } 
+                    })
+                    }                   
+                })             
+            
+            </script>
+</body>
+</html>
+
+{% endblock %}
