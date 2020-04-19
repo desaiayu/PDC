@@ -277,16 +277,12 @@ def api_research():
     
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     Certificate = certi.filename
-    cursor.execute('SELECT * from research')
-    row = cursor.rowcount
     if certi and Certificate != '' and '.' in Certificate and Certificate.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
-        cursor.execute('INSERT into research (uid, title, mentor, domain, outcome, abstract,publisher,acceptance_letter)  values (%s, %s,%s, %s,%s,%s,%s,%s)', (username,Project_Title, Name_of_the_mentor, Domain, Outcome, Abstract,Name_of_Publisher,app.config['FILES']+session['username']+'/Research/'+Project_Title+'/'+Certificate))
-        cursor.execute('SELECT * from research')
-        if(row != cursor.rowcount):
-            pathlib.Path(app.config['FILES'], session['username']).mkdir(exist_ok=True)
-            pathlib.Path(app.config['FILES'], session['username']+'/Research/').mkdir(exist_ok=True)
-            pathlib.Path(app.config['FILES'], session['username']+'/Research/'+Project_Title+'/').mkdir(exist_ok=True)
-            certi.save(os.path.join(app.config['FILES'], session['username']+'/Research/'+Project_Title+'/', Certificate))
+        pathlib.Path(app.config['FILES'], session['username']).mkdir(exist_ok=True)
+        pathlib.Path(app.config['FILES'], session['username']+'/Research/').mkdir(exist_ok=True)
+        pathlib.Path(app.config['FILES'], session['username']+'/Research/'+Project_Title+'/').mkdir(exist_ok=True)
+        certi.save(os.path.join(app.config['FILES'], session['username']+'/Research/'+Project_Title+'/', Certificate))
+    cursor.execute('INSERT into research (uid, title, mentor, domain, outcome, abstract,publisher,acceptance_letter)  values (%s, %s,%s, %s,%s,%s,%s,%s)', (username,Project_Title, Name_of_the_mentor, Domain, Outcome, Abstract,Name_of_Publisher,app.config['FILES']+session['username']+'/Research/'+Project_Title+'/'+Certificate))
     mysql.connection.commit()
     last_id = cursor.lastrowid
     print(last_id)
