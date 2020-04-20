@@ -161,6 +161,8 @@ button:hover {
                 </tbody>                
             </table>
             <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px"type="button" id="add" class="btn btn-info">ADD</button>
+            <br>
+            <br>
             <table class="table table-bordered">
                 <thead>
                     <th class="col-md-2">Name of the Activity</th>
@@ -185,7 +187,7 @@ button:hover {
                                 <td>{{item['cash_prize']}}</td>
                                 <td>{{item['certificate']}}</td>
                                 <td class="col-md-2">
-                                    <a class="delete" data-input = "{{h}}" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                    <a class="delete" data-input = "{{item['id']}}" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                 </td>
                             </tr>
                         {% endfor %}

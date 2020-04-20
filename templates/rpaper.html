@@ -171,20 +171,22 @@ button:hover {
                         </thead>
                         <tbody id="list-table">
                             <!-- entries come in here after success -->
-                            {% for item in msg %}
-                                <tr>
-                                    <td>{{item['title']}}</td>
-                                    <td>{{item['mentor']}}</td>
-                                    <td>{{item['domain']}}</td>
-                                    <td>{{item['outcome']}}</td>
-                                    <td>{{item['abstract']}}</td>
-                                    <td>{{item['publisher']}}</td>
-                                    <td>{{item['acceptance_letter']}}</td>
-                                    <td class="col-md-2">
-                                        <a class="delete" data-input="{{h}}" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                            {% if msg != session['username'] %}
+                                {% for item in msg %}
+                                    <tr>
+                                        <td>{{item['title']}}</td>
+                                        <td>{{item['mentor']}}</td>
+                                        <td>{{item['domain']}}</td>
+                                        <td>{{item['outcome']}}</td>
+                                        <td>{{item['abstract']}}</td>
+                                        <td>{{item['publisher']}}</td>
+                                        <td>{{item['acceptance_letter']}}</td>
+                                        <td class="col-md-2">
+                                            <a class="delete" data-input="{{item['id']}}" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}                                
                         </tbody>
                     </table>
                     <button style="background-color:#d63232 ; border-color:#d63232","padding: 8px 40px"type="button" id="previous" class="btn btn-info">
