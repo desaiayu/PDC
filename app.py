@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request,Response, redirect, url_for, session, jsonify
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
 import os
 import pathlib
+import io
+import xlwt
 
 
 app = Flask(__name__)
@@ -15,7 +17,7 @@ app.secret_key = 'jjhjhjh'
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'pdcc'
+app.config['MYSQL_DB'] = 'pdc'
 app.config['FILES'] = './Files/'
 # app.config['ACADEMICS'] = './Files/Academics/'
 app.config['COC'] = './Files/CoC/'
@@ -556,6 +558,75 @@ def del_social():
     mysql.connection.commit()
     
     return 'True'
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    msg=''
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * from marks')
+        msg = session['username']
+        if cursor.rowcount != 0:
+            msg = cursor.fetchall()
+        return render_template('admin.html',msg=msg) 
+    return redirect(url_for('login'))
+
+@app.route('/adminView', methods=['GET', 'POST'])
+def adminView():
+    msg=''
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT username from accounts')
+        msg = session['username']
+        if cursor.rowcount != 0:
+            msg = cursor.fetchall()
+        return render_template('adminView.html',msg=msg) 
+    return redirect(url_for('login'))
+
+  
+
+
+@app.route('/downloadCSV')
+def download_report():
+    try:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("SELECT * from marks ORDER BY total DESC ")
+        result = cursor.fetchall()
+        output = io.BytesIO()
+        workbook = xlwt.Workbook()
+        sh = workbook.add_sheet('Student Report')
+        sh.write(0, 0, ' UID')
+        sh.write(0, 1, 'Academic Performance')
+        sh.write(0, 2, 'Co-curricular Activities')
+        sh.write(0, 3, 'Extra curricular Activities')
+        sh.write(0, 4, 'Social Responsibility')
+        sh.write(0, 5, 'Final Year Projects and Mini Projects')
+        sh.write(0, 6, 'Papers published / patent filed')
+        sh.write(0, 7, 'Attitude and Behaviour')
+        sh.write(0, 8, 'Total')
+        
+        idx = 0
+        for row in result:
+            sh.write(idx+1, 0, str(row['uid']))
+            sh.write(idx+1, 1, row['academics'])
+            sh.write(idx+1, 2, row['cocurricular'])
+            sh.write(idx+1, 3, row['extracurricular'])
+            sh.write(idx+1, 4, row['social'])
+            sh.write(idx+1, 5, row['project'])
+            sh.write(idx+1, 6, row['paper'])
+            sh.write(idx+1, 7, row['attitude'])
+            sh.write(idx+1, 8, row['total'])
+            idx += 1
+        workbook.save(output)
+        output.seek(0)
+        
+        return Response(output, mimetype="application/ms-excel", headers={"Content-Disposition":"attachment;filename=student_report.xls"})
+    except Exception as e:
+        print(e)
+	
+	
+
 
 if __name__ =='__main__':
     app.run(debug=True)
+
+    

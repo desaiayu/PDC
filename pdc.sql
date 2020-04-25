@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.5
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 18, 2020 at 02:42 PM
--- Server version: 5.7.20
--- PHP Version: 7.3.11
+-- Host: 127.0.0.1
+-- Generation Time: Apr 24, 2020 at 12:32 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pdcc`
+-- Database: `pdc`
 --
 
 -- --------------------------------------------------------
@@ -72,7 +72,8 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `email`) VALUES
 (2, 'parth', 'parth', 'p@g.com'),
 (3, 'ayu', 'ayu', 'ayu@gmail.com'),
 (4, 'naisha', 'naisha', 'n@shah.com'),
-(5, 'boo', 'boo', 'boo@gmail.com');
+(5, 'boo', 'boo', 'boo@gmail.com'),
+(6, 'admin', 'admin', 'admin@spit.ac.in');
 
 -- --------------------------------------------------------
 
@@ -130,6 +131,32 @@ CREATE TABLE `extracirricular` (
 
 INSERT INTO `extracirricular` (`id`, `uid`, `name`, `date`, `type`, `award`, `location`, `cash_prize`, `certificate`) VALUES
 (1, 'parth', 'vv', '0000-00-00', 'v', 'vv', 'vv', 'v', 'ISE2_Dikshita.pdf');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marks`
+--
+
+CREATE TABLE `marks` (
+  `uid` varchar(200) NOT NULL,
+  `academics` int(11) NOT NULL,
+  `cocurricular` int(11) NOT NULL,
+  `extracurricular` int(11) NOT NULL,
+  `social` int(11) NOT NULL,
+  `project` int(11) NOT NULL,
+  `paper` int(11) NOT NULL,
+  `attitude` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `marks`
+--
+
+INSERT INTO `marks` (`uid`, `academics`, `cocurricular`, `extracurricular`, `social`, `project`, `paper`, `attitude`, `total`) VALUES
+('boo', 10, 9, 4, 3, 9, 5, 14, 54),
+('yashvi', 10, 8, 3, 2, 8, 4, 14, 49);
 
 -- --------------------------------------------------------
 
@@ -295,6 +322,12 @@ ALTER TABLE `extracirricular`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indexes for table `marks`
+--
+ALTER TABLE `marks`
+  ADD PRIMARY KEY (`uid`);
+
+--
 -- Indexes for table `miniproject`
 --
 ALTER TABLE `miniproject`
@@ -343,7 +376,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `cocirricular`
